@@ -9,7 +9,8 @@
       "args": [],
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "Build (선택된 플랫폼 & 설정)",
-      "stopAtEntry": false
+      "stopAtEntry": false,
+      "console": "integratedTerminal"
     }
   ],
   "inputs": [
