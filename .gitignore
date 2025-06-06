@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# .vscode directory
+.vscode/c_pp_properties.json
+
 # User-specific files
 *.rsuser
 *.suo
