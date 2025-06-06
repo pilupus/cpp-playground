@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C++: 선택한 Platform/Config 빌드 및 디버그",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/${input:selectedPlatform}/${input:selectedConfig}/${workspaceFolderBasename}.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build (선택된 플랫폼 & 설정)",
+      "stopAtEntry": false
+    }
+  ],
+  "inputs": [
+    {
+      "id": "selectedPlatform",
+      "type": "pickString",
+      "description": "빌드할 플랫폼을 선택하세요",
+      "options": ["x64", "ARM64"],
+      "default": "ARM64"
+    },
+    {
+      "id": "selectedConfig",
+      "type": "pickString",
+      "description": "빌드할 구성을 선택하세요",
+      "options": ["Debug", "Release"],
+      "default": "Debug"
+    }
+  ]
+}

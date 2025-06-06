@@ -1,0 +1,59 @@
+// .vscode/tasks.json
+{
+  "version": "2.0.0",
+
+  // 1) tasks 정의
+  "tasks": [
+    {
+      "label": "Build (선택된 플랫폼 & 설정)",
+      "type": "shell",
+      "command": "msbuild",
+      "args": [
+        // .vcxproj 파일 경로 (예: MyProject/MyProject.vcxproj)
+        "${workspaceFolder}/${workspaceFolderBasename}/${workspaceFolderBasename}.vcxproj",
+
+        // launch.json의 inputs에서 받은 플랫폼/설정을 MSBuild에 전달
+        "/p:Platform=${input:selectedPlatform}",
+        "/p:Configuration=${input:selectedConfig}",
+
+        // OutDir/IntDir에 입력값 그대로 반영 
+        "/p:OutDir=${workspaceFolder}/${input:selectedPlatform}/${input:selectedConfig}/",
+        "/p:IntDir=${workspaceFolder}/${workspaceFolderBasename}/${input:selectedPlatform}/${input:selectedConfig}/"
+      ],
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": ["absolute"],
+        "pattern": {
+          "regexp": "^(.*)\\((\\d+)\\):\\s+(fatal error|error|warning)\\s+C(\\d+):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "severity": 3,
+          "code": 4,
+          "message": 5
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ],
+
+  // 2) inputs는 tasks 배열 바깥, 루트 오브젝트 아래에 정의해야 함
+  "inputs": [
+    {
+      "id": "selectedPlatform",
+      "type": "pickString",
+      "description": "빌드할 플랫폼을 선택하세요",
+      "options": ["x64", "ARM64"],
+      "default": "ARM64"
+    },
+    {
+      "id": "selectedConfig",
+      "type": "pickString",
+      "description": "빌드할 구성을 선택하세요",
+      "options": ["Debug", "Release"],
+      "default": "Debug"
+    }
+  ]
+}
