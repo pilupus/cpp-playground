@@ -6,33 +6,46 @@
 
 using namespace std;
 
-Practice::Practice() {
+Practice::Practice()
+{
     // Constructor implementation
     system("cls");
 }
 
+struct Monster
+{
+    string name;
+    int hp;
+    int att;
+    int def;
+    int speed;
+};
 
-int getNewID(const int val) {
-    cout << "getNewID called with value: " << val << endl;
-    
-    static int ID = 0;
-    return ++ID;
+void printMonster(const Monster &monster)
+{
+    cout << "Monster Name: " << monster.name << endl;
+    cout << "HP: " << monster.hp << endl;
+    cout << "Attack: " << monster.att << endl;
+    cout << "Defense: " << monster.def << endl;
+    cout << "Speed: " << monster.speed << endl;
 }
 
-void swap(int &ref_a, int &ref_b) {
-    int temp = ref_a;
-    ref_a = ref_b;
-    ref_b = temp;
-}
-
-void Practice::run() {
-    for (int seq = 0; seq < 5; seq++)
+void Practice::run()
+{
+    int *parr = new int[5];
+    for (int idx = 0; idx < 5; idx++)
     {
-        cout << "ID: " << getNewID(seq) << endl;
+        parr[idx] = idx + 1;
+        cout << parr[idx] << endl;
     }
+    
+    delete[] parr; // Free the allocated memory
 
-    int a = 10, b = 20;
-    cout << "Before swap: a = " << a << ", b = " << b << endl;
-    swap(a, b);
-    cout << "After swap: a = " << a << ", b = " << b << endl;
+    Monster* monster = new Monster{"Goblin", 100, 20, 10, 5};
+    printMonster(*monster);
+    delete monster; // Free the allocated memory for the monster
+    
+    monster = new Monster{"Orc", 150, 30, 20, 10};
+    printMonster(*monster);
+    delete monster; // Free the allocated memory for the monster
 }
