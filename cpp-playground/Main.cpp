@@ -1,6 +1,11 @@
 #include <iostream>
+#include "Practice.h"
 
 int main() {
-    std::cout << "Hello, C++17 World!" << std::endl;
+    Practice* practice = new Practice(); // Get the singleton instance
+    practice -> run();
+
+    delete practice; // Clean up the allocated memory
+
     return 0;
 }
