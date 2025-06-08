@@ -4,25 +4,35 @@
 #include "Game.h"
 #include <iostream>
 #include <string>
+#include <conio.h> // for _kbhit() and _getch()
+#include <thread>
+#include <chrono>
 
 Game::Game(int width, int height, bool isWindows)
-    : width(width), height(height), playerX(width / 2), playerY(height / 2), running(true), isWindows(isWindows) {}
+    : width(width), height(height), playerX(width / 2), playerY(height / 2), running(true), isWindows(isWindows), moved(false) {}
 
 void Game::run()
 {
+    std::cout << "Press Any Key to Start the Game...\n";
     while (running)
     {
-        clearScreen();
-        drawMap();
-
-        std::cout << "\n"
-                  << "Use WASD to move, Q to quit.\n";
-        std::string input;
-        std::getline(std::cin, input);
-        if (!input.empty())
+        if (moved) // Only clear the screen if the player has moved
         {
-            processInput(std::toupper(input[0]));
+            clearScreen();
+            drawMap();
+
+            moved = false; // Reset moved flag at the start of each loop
         }
+
+        // async input handling
+        if (_kbhit()) // Check if a key has been pressed
+        {
+            char input = _getch(); // Get the pressed key
+            processInput(std::toupper(input)); // Convert to uppercase for consistency
+        }
+
+        // control the game speed
+        std::this_thread::sleep_for(std::chrono::milliseconds(50)); // Sleep for 100 milliseconds
     }
     std::cout << "Game Over!" << std::endl;
 }
@@ -42,8 +52,9 @@ void Game::drawMap() const
                 std::cout << '.'; // Empty space
             }
         }
-        std::cout << '\n';
+        std::cout << '\n'; // New line after each row
     }
+    std::cout << "\nUse WASD to move, Q to quit.\n";
 }
 
 void Game::processInput(char input)
@@ -51,22 +62,38 @@ void Game::processInput(char input)
     switch (input)
     {
         case 'W': // Move up
-            if (playerY > 0) playerY--;
+            if (playerY > 0) 
+            {
+                playerY--;
+                moved = true; // Set moved flag to true when player moves
+            }
             break;
         case 'A': // Move left
-            if (playerX > 0) playerX--;
+            if (playerX > 0) 
+            {
+                playerX--;
+                moved = true; // Set moved flag to true when player moves
+            }
             break;
         case 'S': // Move down
-            if (playerY < height - 1) playerY++;
+            if (playerY < height - 1) 
+            {
+                playerY++;
+                moved = true; // Set moved flag to true when player moves
+            }
             break;
         case 'D': // Move right
-            if (playerX < width - 1) playerX++;
+            if (playerX < width - 1) 
+            {
+                playerX++;
+                moved = true; // Set moved flag to true when player moves
+            }
             break;
         case 'Q': // Quit the game
             running = false;
             break;
         default:
-            std::cout << "Invalid input! Use WASD to move, Q to quit.\n";
+            // std::cout << "Invalid input! Use WASD to move, Q to quit.\n";
             break;
     }
 }

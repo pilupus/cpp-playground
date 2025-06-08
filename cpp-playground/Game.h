@@ -16,6 +16,7 @@ private:
     int playerX;
     int playerY;
     bool running;
+    bool moved;
 
     void drawMap() const;
     void processInput(char input);

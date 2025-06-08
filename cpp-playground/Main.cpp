@@ -8,7 +8,7 @@ bool isWindows = false;
 #endif
 
 int main() {
-    Game game(10, 10, isWindows);
+    Game game(20, 20, isWindows);
     game.run();
     
     return 0;
