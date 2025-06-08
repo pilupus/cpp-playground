@@ -1,51 +1,64 @@
 // Practice.cpp
 //
-#include <iostream>
 #include "Practice.h"
-#include <string>
+
+#include <iostream>
+#include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+#include <cstdlib>
 
 using namespace std;
+
+class accelerator;
+const int dummy = 0;
+
+class engine
+{
+private:
+    virtual void acceleration_output() = 0;
+    virtual void reduce_output() = 0;
+    friend class accelerator;
+};
+
+class ic_engine : public engine
+{
+private:
+    virtual void acceleration_output() = 0;
+    virtual void reduce_output() = 0;
+};
+
+class gs_engine : public engine
+{
+private:
+    void acceleration_output() override { increasing_fuel(); };
+    void reduce_output() override { decreasing_fuel(); };
+    void increasing_fuel() { increasing_piston_speed(); };
+    void decreasing_fuel() { decreasing_piston_speed(); };
+    void increasing_piston_speed() { cout << "Increasing piston speed in gs_engine." << endl; };
+    void decreasing_piston_speed() { cout << "Decreasing piston speed in gs_engine." << endl; };
+};
+
+class elec_engin : public engine
+{
+private:
+    void acceleration_output() override { increasing_motor_speed(); };
+    void reduce_output() override { decreasing_motor_speed(); };
+    void increasing_motor_speed() { cout << "Increasing motor speed in elec_engin." << endl; };
+    void decreasing_motor_speed() { cout << "Decreasing motor speed in elec_engin." << endl; };
+};
+
+
 
 Practice::Practice()
 {
     // Constructor implementation
     system("cls");
-}
-
-struct Monster
-{
-    string name;
-    int hp;
-    int att;
-    int def;
-    int speed;
+    cout << "Welcome to the C++ Practice Program!" << endl;
 };
 
-void printMonster(const Monster &monster)
-{
-    cout << "Monster Name: " << monster.name << endl;
-    cout << "HP: " << monster.hp << endl;
-    cout << "Attack: " << monster.att << endl;
-    cout << "Defense: " << monster.def << endl;
-    cout << "Speed: " << monster.speed << endl;
-}
-
-void Practice::run()
-{
-    int *parr = new int[5];
-    for (int idx = 0; idx < 5; idx++)
-    {
-        parr[idx] = idx + 1;
-        cout << parr[idx] << endl;
-    }
-    
-    delete[] parr; // Free the allocated memory
-
-    Monster* monster = new Monster{"Goblin", 100, 20, 10, 5};
-    printMonster(*monster);
-    delete monster; // Free the allocated memory for the monster
-    
-    monster = new Monster{"Orc", 150, 30, 20, 10};
-    printMonster(*monster);
-    delete monster; // Free the allocated memory for the monster
-}
+void Practice::run() {
+};
