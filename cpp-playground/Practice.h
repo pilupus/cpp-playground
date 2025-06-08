@@ -6,6 +6,7 @@ class Practice
 {
 public:
     // Constructor
+    Practice();
 
     // Destructor
     void run();
